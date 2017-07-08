@@ -1,0 +1,21 @@
+{
+  "name": "computed-key-frames",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "echo todo setup env",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunukn/Computed-KeyFrames.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kunukn/Computed-KeyFrames/issues"
+  },
+  "homepage": "https://github.com/kunukn/Computed-KeyFrames#readme"
+}
