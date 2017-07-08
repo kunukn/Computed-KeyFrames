@@ -45,7 +45,7 @@ export default function ComputedKeyFrames(config) {
           easingSlices.push({
             easingValues: this
               .easingValues
-              .slice(frame.framePercentage),
+              .slice(~~frame.framePercentage),
             translate3d: {
               from: frame.translate3d,
               to: nextFrame.translate3d
@@ -55,7 +55,7 @@ export default function ComputedKeyFrames(config) {
           easingSlices.push({
             easingValues: this
               .easingValues
-              .slice(frame.framePercentage),
+              .slice(~~frame.framePercentage),
             translate3d: {
               from: frame.translate3d,
               to: frame.translate3d
@@ -67,7 +67,7 @@ export default function ComputedKeyFrames(config) {
         easingSlices.push({
           easingValues: this
             .easingValues
-            .slice(frame.framePercentage, nextFrame.framePercentage),
+            .slice(~~frame.framePercentage, nextFrame.framePercentage),
           translate3d: {
             from: frame.translate3d,
             to: nextFrame.translate3d
