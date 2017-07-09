@@ -10,7 +10,7 @@ export default function ComputedKeyFrames(config) {
       console.error('a config must be provided');
       return;
     }
-    
+
     this.sanitizeConfig();
 
     this.calculateEasingValues();
@@ -28,13 +28,23 @@ export default function ComputedKeyFrames(config) {
     const frameCount = config.frames.length;
     for (var i = 0; i < frameCount; i++) {
       let frame = config.frames[i];
-      let t3d = frame.translate3d;
-      t3d.x = t3d.x || 0;
-      t3d.y = t3d.y || 0;
-      t3d.z = t3d.z || 0;
-      t3d.x = +t3d.x;
-      t3d.y = +t3d.y;
-      t3d.z = +t3d.z;
+
+      if(frame.translate3d){
+        let t3d = frame.translate3d;
+        t3d.x = +(t3d.x || 0);
+        t3d.y = +(t3d.y || 0);
+        t3d.z = +(t3d.z || 0);
+        frame.translate3d = t3d;
+      }
+      
+      if(frame.scale3d){
+        let s3d = frame.scale3d;
+        s3d.x = +(s3d.x || 0);
+        s3d.y = +(s3d.y || 0);
+        s3d.z = +(s3d.z || 0);
+        frame.scale3d = s3d;
+      }
+      
     }
   }
 
@@ -61,29 +71,29 @@ export default function ComputedKeyFrames(config) {
           easingSlices.push({
             easingValues: this
               .easingValues
-              .slice(~~frame.framePercentage),
+              .slice(~~ frame.framePercentage),
             translate3d: {
               from: frame.translate3d,
-              to: nextFrame.translate3d,
+              to: nextFrame.translate3d
             },
-            scale3d:{
+            scale3d: {
               from: frame.scale3d,
-              to: nextFrame.scale3d,
-            },
+              to: nextFrame.scale3d
+            }
           });
         } else {
           easingSlices.push({
             easingValues: this
               .easingValues
-              .slice(~~frame.framePercentage),
+              .slice(~~ frame.framePercentage),
             translate3d: {
               from: frame.translate3d,
-              to: frame.translate3d,
+              to: frame.translate3d
             },
-            scale3d:{
+            scale3d: {
               from: frame.scale3d,
-              to: frame.scale3d,
-            },
+              to: frame.scale3d
+            }
           });
         }
       } else {
@@ -91,15 +101,15 @@ export default function ComputedKeyFrames(config) {
         easingSlices.push({
           easingValues: this
             .easingValues
-            .slice(~~frame.framePercentage, nextFrame.framePercentage),
+            .slice(~~ frame.framePercentage, nextFrame.framePercentage),
           translate3d: {
             from: frame.translate3d,
-            to: nextFrame.translate3d,
+            to: nextFrame.translate3d
           },
-          scale3d:{
-              from: frame.scale3d,
-              to: nextFrame.scale3d,
-            },
+          scale3d: {
+            from: frame.scale3d,
+            to: nextFrame.scale3d
+          }
         });
       }
     }
@@ -117,10 +127,14 @@ export default function ComputedKeyFrames(config) {
           let x = rangeMap(n, first, last, translate3d.from.x, translate3d.to.x);
           let y = rangeMap(n, first, last, translate3d.from.y, translate3d.to.y);
           let z = rangeMap(n, first, last, translate3d.from.y, translate3d.to.z);
-          
+
           return {
-              translate3d: {x, y, z}
-            };
+            translate3d: {
+              x,
+              y,
+              z
+            }
+          };
         });
       });
 
@@ -135,12 +149,16 @@ export default function ComputedKeyFrames(config) {
           .easingValuesMapped
           .map((val, i) => {
             let t3d = val.translate3d;
+            let s3d = val.scale3d; // not used yet
 
+            if (t3d) {
+              return `${i + frames.length}%{transform:translate3d(${round(t3d.x, 3)}${config.unit},${round(t3d.y, 3)}${config.unit},${round(t3d.z, 3)}${config.unit})}\n`;
+            }
 
-            return `${i + frames.length}%{transform:translate3d(${round(t3d.x, 3)}${config.unit},${round(t3d.y, 3)}${config.unit},${round(t3d.z, 3)}${config.unit})}\r\n`;
+            return '\n';
           });
-          
-          frames.push(...mapped);
+
+        frames.push(...mapped);
       });
     this.frames = frames;
   };
@@ -149,18 +167,14 @@ export default function ComputedKeyFrames(config) {
     let styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.innerHTML = `@keyframes ${this
-      .config
-      .animationName}{
-      ${frames
-      .join(' ')}
+      .config.animationName}{
+ ${frames.join(' ')}
     }`;
-    document
-      .getElementsByTagName('head')[0]
-      .appendChild(styleElement);
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
   }
 }
 
-function round(number, precision) {
+export function round(number, precision) {
   if (precision === undefined) 
     return number;
   
@@ -174,7 +188,7 @@ function round(number, precision) {
   Value x which is in range [a,b]
   is mapped to a new value in range [c,d]
 */
-function rangeMap(x, a, b, c, d) {
+export function rangeMap(x, a, b, c, d) {
   if (x < a || x > b) {
     console.error('rangeMap x is out of range');
   }
@@ -187,7 +201,7 @@ function rangeMap(x, a, b, c, d) {
   return (x - a) / (b - a) * (d - c) + c;
 }
 
-const __ = {
+export const __ = {
   last: function last(array) {
     if (array && array.length) {
       return array[array.length - 1];
