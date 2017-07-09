@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 import ComputedKeyFrames from './ComputedKeyFrames';
 
 const config = {

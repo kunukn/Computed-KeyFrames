@@ -7,7 +7,7 @@ export default function ComputedKeyFrames(config) {
   this.init = () => {
 
     if (!this.config) {
-      console.log('a config must be provided');
+      console.error('a config must be provided');
       return;
     }
 
@@ -48,8 +48,12 @@ export default function ComputedKeyFrames(config) {
               .slice(~~frame.framePercentage),
             translate3d: {
               from: frame.translate3d,
-              to: nextFrame.translate3d
-            }
+              to: nextFrame.translate3d,
+            },
+            scale3d:{
+              from: frame.scale3d,
+              to: nextFrame.scale3d,
+            },
           });
         } else {
           easingSlices.push({
@@ -58,8 +62,12 @@ export default function ComputedKeyFrames(config) {
               .slice(~~frame.framePercentage),
             translate3d: {
               from: frame.translate3d,
-              to: frame.translate3d
-            }
+              to: frame.translate3d,
+            },
+            scale3d:{
+              from: frame.scale3d,
+              to: frame.scale3d,
+            },
           });
         }
       } else {
@@ -70,8 +78,12 @@ export default function ComputedKeyFrames(config) {
             .slice(~~frame.framePercentage, nextFrame.framePercentage),
           translate3d: {
             from: frame.translate3d,
-            to: nextFrame.translate3d
-          }
+            to: nextFrame.translate3d,
+          },
+          scale3d:{
+              from: frame.scale3d,
+              to: nextFrame.scale3d,
+            },
         });
       }
     }
