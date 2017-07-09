@@ -30,6 +30,9 @@ h1 {
     margin: 1rem auto;
     padding: 0 2rem;
     line-height: 1.2;
+    > p {
+        margin: .5rem 0;
+    }
 }
 
 .main {
@@ -40,7 +43,7 @@ h1 {
 }
 
 .app {
-    border: 1px solid;
+    border: 1px solid gray;
     width: 5*$size;
     height: 5*$size;
     position: relative;
@@ -74,15 +77,18 @@ h1 {
 @keyframes anim {
     0%,
     100% {
-        transform: translate3d(0vmin, 0vmin, 0);
+        transform: translate3d(0vmin, $size*4, 0)
     }
-    25% {
-        transform: translate3d($size*4, 0vmin, 0);
+    20% {
+        transform: translate3d($size*2, 0vmin, 0)
     }
-    50% {
-        transform: translate3d($size*4, $size*4, 0);
+    40% {
+        transform: translate3d($size*4, $size*4, 0)
     }
-    75% {
-        transform: translate3d(0vmin, $size*4, 0);
+    60% {
+        transform: translate3d(0vmin, $size*2, 0)
+    }
+    80% {
+        transform: translate3d($size*4, $size*2, 0)
     }
 }

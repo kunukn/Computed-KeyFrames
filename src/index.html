@@ -10,9 +10,21 @@
 <body>
   <div class="info">
     <h1>Computed&shy;KeyFrames</h1>
-    Same easing applied during whole animation. Both the items has the same easing <b>easeOutQuart</b> in this example. The
-    red has 4 keyframes from CSS. The black has the easing values calculated from JS and then inserted in to the DOM using
-    style element. Only transform translate3d is supported.
+    <p>
+      Same easing applied during whole animation.
+    </p>
+    <p>
+      Both the items has the same easing <b>easeOutQuart</b> in this example.
+    </p>
+    <p>
+      The red and black has same 5 keyframes. The easing for the black is applied during whole animation and not on each keyframe as
+      seen with the red.
+    </p>
+    <p>
+      The easing values are calculated in JS and then inserted in to the DOM using style element. Only transform translate3d is
+      supported (at the moment).
+    </p>
+
   </div>
   <div class="main">
     <div class="app">

@@ -10,28 +10,36 @@ const config = {
       framePercentage: 0,
       translate3d: {
         x: 0,
-        y: 0,
+        y: 40,
         z: 0
       }
     }, {
-      framePercentage: 25,
+      framePercentage: 20,
       translate3d: {
-        x: 40,
+        x: 20,
         y: 0,
         z: 0
       }
     }, {
-      framePercentage: 50,
+      framePercentage: 40,
       translate3d: {
         x: 40,
         y: 40,
         z: 0
       }
     }, {
-      framePercentage: 75,
+      framePercentage: 60,
       translate3d: {
         x: 0,
-        y: 40,
+        y: 20,
+        z: 0
+      }
+    }, 
+    {
+      framePercentage: 80,
+      translate3d: {
+        x: 40,
+        y: 20,
         z: 0
       }
     }, 
@@ -39,7 +47,7 @@ const config = {
     {
       framePercentage: 100,
       translate3d: {
-        x: 40,
+        x: 0,
         y: 40,
         z: 0
       }
