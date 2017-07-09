@@ -81,18 +81,18 @@ a{
 @keyframes anim {
     0%,
     100% {
-        transform: translate3d(0vmin, $size*4, 0)
+        transform: translate3d(0vmin, $size*4, 0) scale3d(1,1,1)
     }
     20% {
-        transform: translate3d($size*2, 0vmin, 0)
+        transform: translate3d($size*2, 0vmin, 0) scale3d(1,1,1)
     }
     40% {
-        transform: translate3d($size*4, $size*4, 0)
+        transform: translate3d($size*4, $size*4, 0) scale3d(2,2,1)
     }
     60% {
-        transform: translate3d(0vmin, $size*2, 0)
+        transform: translate3d(0vmin, $size*2, 0) scale3d(1,1,1)
     }
     80% {
-        transform: translate3d($size*4, $size*2, 0)
+        transform: translate3d($size*4, $size*2, 0) scale3d(1,1,1)
     }
 }

@@ -1,4 +1,5 @@
 export default function ComputedKeyFrames(config) {
+  
   this.config = config;
   this.easingValues = [];
   this.easingSlices = [];
@@ -11,20 +12,24 @@ export default function ComputedKeyFrames(config) {
       return;
     }
 
-    this.sanitizeConfig();
+    this.sanitizeConfig(
+      {config: this.config});
 
     this.calculateEasingValues();
 
     this.calcualateEasingSlices();
 
-    this.calculateEasingSlicesMapping();
+    this.calculateEasingSlicesMapping(
+      {easingSlices: this.easingSlices});
 
-    this.calculateFrames();
+    this.calculateFrames(
+      {easingSlices: this.easingSlices});
 
-    this.addStyleToDOM(this.frames);
+    this.addStyleToDOM(
+      {frames: this.frames, animationName: this.config.animationName});
   }
 
-  this.sanitizeConfig = () => {
+  this.sanitizeConfig = ({config}) => {
     const frameCount = config.frames.length;
     for (var i = 0; i < frameCount; i++) {
       let frame = config.frames[i];
@@ -44,7 +49,6 @@ export default function ComputedKeyFrames(config) {
         s3d.z = +(s3d.z || 0);
         frame.scale3d = s3d;
       }
-      
     }
   }
 
@@ -116,46 +120,60 @@ export default function ComputedKeyFrames(config) {
     this.easingSlices = easingSlices;
   };
 
-  this.calculateEasingSlicesMapping = () => {
-    this
-      .easingSlices
+  this.calculateEasingSlicesMapping = ({easingSlices}) => {
+    easingSlices
       .forEach((easingSlice) => {
-        let {translate3d, easingValues} = easingSlice;
+        let {translate3d, scale3d, easingValues} = easingSlice;
         let first = easingValues[0];
         let last = __.last(easingValues);
         easingSlice.easingValuesMapped = easingValues.map((n) => {
-          let x = rangeMap(n, first, last, translate3d.from.x, translate3d.to.x);
-          let y = rangeMap(n, first, last, translate3d.from.y, translate3d.to.y);
-          let z = rangeMap(n, first, last, translate3d.from.y, translate3d.to.z);
 
-          return {
-            translate3d: {
-              x,
-              y,
-              z
-            }
-          };
+          let mapped = {};
+
+          if(translate3d && translate3d.from && translate3d.to){
+            let x = rangeMap(n, first, last, translate3d.from.x, translate3d.to.x);
+            let y = rangeMap(n, first, last, translate3d.from.y, translate3d.to.y);
+            let z = rangeMap(n, first, last, translate3d.from.y, translate3d.to.z);
+            mapped.translate3d = { x, y, z };
+          }
+
+          if(scale3d && scale3d.from && scale3d.to){
+            let x = rangeMap(n, first, last, scale3d.from.x, scale3d.to.x);
+            let y = rangeMap(n, first, last, scale3d.from.y, scale3d.to.y);
+            let z = rangeMap(n, first, last, scale3d.from.y, scale3d.to.z);
+            mapped.scale3d = { x, y, z };
+          }
+
+          return mapped;
         });
       });
 
   };
 
-  this.calculateFrames = () => {
+  this.calculateFrames = ({easingSlices}) => {
     let frames = [];
-    this
-      .easingSlices
+    easingSlices
       .forEach((easingSlice, index) => {
         let mapped = easingSlice
           .easingValuesMapped
           .map((val, i) => {
             let t3d = val.translate3d;
-            let s3d = val.scale3d; // not used yet
+            let s3d = val.scale3d;
+
+            let t3dCss = '';
+            let s3dCss = '';
+            let t3dUnit = config.unit.translate3d;
+            let s3dUnit = config.unit.scale3d;
 
             if (t3d) {
-              return `${i + frames.length}%{transform:translate3d(${round(t3d.x, 3)}${config.unit},${round(t3d.y, 3)}${config.unit},${round(t3d.z, 3)}${config.unit})}\n`;
+              t3dCss = `translate3d(${round(t3d.x, 3)}${t3dUnit},${round(t3d.y, 3)}${t3dUnit},${round(t3d.z, 3)}${t3dUnit})`;
+            }
+            
+            if (s3d) {
+              s3dCss = `scale3d(${round(s3d.x, 3)}${s3dUnit},${round(s3d.y, 3)}${s3dUnit},${round(s3d.z, 3)}${s3dUnit})`;
             }
 
-            return '\n';
+            return `${i + frames.length}%{transform: ${t3dCss} ${s3dCss}}\n`;
           });
 
         frames.push(...mapped);
@@ -163,11 +181,10 @@ export default function ComputedKeyFrames(config) {
     this.frames = frames;
   };
 
-  this.addStyleToDOM = function (frames) {
+  this.addStyleToDOM = function ({frames, animationName}) {
     let styleElement = document.createElement('style');
     styleElement.type = 'text/css';
-    styleElement.innerHTML = `@keyframes ${this
-      .config.animationName}{
+    styleElement.innerHTML = `@keyframes ${animationName}{
  ${frames.join(' ')}
     }`;
     document.getElementsByTagName('head')[0].appendChild(styleElement);
