@@ -11,13 +11,13 @@ const config = {
       translate3d: {
         x: 0,
         y: 40,
-        z: 0
+       // z: 0 // optional, defaults to 0
       }
     }, {
       framePercentage: 20,
       translate3d: {
         x: 20,
-        y: 0,
+        //y: 0, // optional, defaults to 0
         z: 0
       }
     }, {

@@ -10,6 +10,8 @@ export default function ComputedKeyFrames(config) {
       console.error('a config must be provided');
       return;
     }
+    
+    this.sanitizeConfig();
 
     this.calculateEasingValues();
 
@@ -20,6 +22,20 @@ export default function ComputedKeyFrames(config) {
     this.calculateFrames();
 
     this.addStyleToDOM(this.frames);
+  }
+
+  this.sanitizeConfig = () => {
+    const frameCount = config.frames.length;
+    for (var i = 0; i < frameCount; i++) {
+      let frame = config.frames[i];
+      let t3d = frame.translate3d;
+      t3d.x = t3d.x || 0;
+      t3d.y = t3d.y || 0;
+      t3d.z = t3d.z || 0;
+      t3d.x = +t3d.x;
+      t3d.y = +t3d.y;
+      t3d.z = +t3d.z;
+    }
   }
 
   this.calculateEasingValues = () => {
@@ -99,9 +115,12 @@ export default function ComputedKeyFrames(config) {
         let last = __.last(easingValues);
         easingSlice.easingValuesMapped = easingValues.map((n) => {
           let x = rangeMap(n, first, last, translate3d.from.x, translate3d.to.x);
-          let z = rangeMap(n, first, last, translate3d.from.z, translate3d.to.z);
           let y = rangeMap(n, first, last, translate3d.from.y, translate3d.to.y);
-          return {x, y, z};
+          let z = rangeMap(n, first, last, translate3d.from.y, translate3d.to.z);
+          
+          return {
+              translate3d: {x, y, z}
+            };
         });
       });
 
@@ -114,8 +133,14 @@ export default function ComputedKeyFrames(config) {
       .forEach((easingSlice, index) => {
         let mapped = easingSlice
           .easingValuesMapped
-          .map((val, i) => `${i + frames.length}%{transform:translate3d(${round(val.x, 3)}${config.unit},${round(val.y, 3)}${config.unit},${round(val.z, 3)}${config.unit})}\r\n`);
-        frames.push(...mapped);
+          .map((val, i) => {
+            let t3d = val.translate3d;
+
+
+            return `${i + frames.length}%{transform:translate3d(${round(t3d.x, 3)}${config.unit},${round(t3d.y, 3)}${config.unit},${round(t3d.z, 3)}${config.unit})}\r\n`;
+          });
+          
+          frames.push(...mapped);
       });
     this.frames = frames;
   };
