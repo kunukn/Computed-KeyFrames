@@ -8,7 +8,7 @@ Transform: translate3d is supported.
 https://codepen.io/kunukn/full/rwqeKG/
 
 # Getting start
-* Clone this repo
+* clone/download this repo
 * npm install
 * npm start
 * go to http://localhost:3456/index.html
