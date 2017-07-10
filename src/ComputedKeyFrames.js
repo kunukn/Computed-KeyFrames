@@ -171,16 +171,16 @@ export default function ComputedKeyFrames(config) {
             let s3dUnit = config.unit.scale3d;
 
             if (t3d) {  
-              let x = t3d.x === 0 ? '0' : `${round(t3d.x, 3)}${t3dUnit}`;
-              let y = t3d.y === 0 ? '0' : `${round(t3d.y, 3)}${t3dUnit}`;
-              let z = t3d.z === 0 ? '0' : `${round(t3d.z, 3)}${t3dUnit}`;
+              let x = t3d.x === 0 ? 0 : `${round(t3d.x, 3)}${t3dUnit}`;
+              let y = t3d.y === 0 ? 0 : `${round(t3d.y, 3)}${t3dUnit}`;
+              let z = t3d.z === 0 ? 0 : `${round(t3d.z, 3)}${t3dUnit}`;
               t3dCss = `translate3d(${x},${y},${z})`;
             }
             
             if (s3d) {
-              let x = s3d.x === 0 ? '0' : `${round(s3d.x, 3)}${s3dUnit}`;
-              let y = s3d.y === 0 ? '0' : `${round(s3d.y, 3)}${s3dUnit}`;
-              let z = s3d.z === 0 ? '0' : `${round(s3d.z, 3)}${s3dUnit}`;
+              let x = s3d.x === 0 ? 0 : `${round(s3d.x, 3)}${s3dUnit}`;
+              let y = s3d.y === 0 ? 0 : `${round(s3d.y, 3)}${s3dUnit}`;
+              let z = s3d.z === 0 ? 0 : `${round(s3d.z, 3)}${s3dUnit}`;
               s3dCss = `scale3d(${x},${y},${z})`;
             }
 
