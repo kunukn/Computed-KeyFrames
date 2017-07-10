@@ -34,25 +34,25 @@ export default function ComputedKeyFrames(config) {
       let frame = this.config.frames[i];
 
       if(frame.translate3d){
-        let t3d = frame.translate3d;
-        t3d.x = parseFloat(t3d.x, 10);
-        t3d.y = parseFloat(t3d.y, 10);
-        t3d.z = parseFloat(t3d.z, 10);      
-        if(isNaN(t3d.x)) t3d.x = 0;
-        if(isNaN(t3d.y)) t3d.y = 0;
-        if(isNaN(t3d.z)) t3d.z = 0;
-        frame.translate3d = t3d;
+        let _3d = frame.translate3d;
+        _3d.x = parseFloat(_3d.x, 10);
+        _3d.y = parseFloat(_3d.y, 10);
+        _3d.z = parseFloat(_3d.z, 10);      
+        if(isNaN(_3d.x)) _3d.x = 0;
+        if(isNaN(_3d.y)) _3d.y = 0;
+        if(isNaN(_3d.z)) _3d.z = 0;
+        frame.translate3d = _3d;
       }
       
       if(frame.scale3d){
-        let s3d = frame.scale3d;
-        s3d.x = parseFloat(s3d.x, 10);
-        s3d.y = parseFloat(s3d.y, 10);
-        s3d.z = parseFloat(s3d.z, 10);
-        if(isNaN(s3d.x)) s3d.x = 1;
-        if(isNaN(s3d.x)) s3d.y = 1;
-        if(isNaN(s3d.x)) s3d.z = 1;
-        frame.scale3d = s3d;
+        let _3d = frame.scale3d;
+        _3d.x = parseFloat(_3d.x, 10);
+        _3d.y = parseFloat(_3d.y, 10);
+        _3d.z = parseFloat(_3d.z, 10);
+        if(isNaN(_3d.x)) _3d.x = 1;
+        if(isNaN(_3d.y)) _3d.y = 1;
+        if(isNaN(_3d.z)) _3d.z = 1;
+        frame.scale3d = _3d;
       }
     }
   }
