@@ -36,17 +36,23 @@ export default function ComputedKeyFrames(config) {
 
       if(frame.translate3d){
         let t3d = frame.translate3d;
-        t3d.x = +(t3d.x || 0);
-        t3d.y = +(t3d.y || 0);
-        t3d.z = +(t3d.z || 0);
+        t3d.x = parseFloat(t3d.x, 10);
+        t3d.y = parseFloat(t3d.y, 10);
+        t3d.z = parseFloat(t3d.z, 10);
+        if(t3d.x === NaN) t3d.x = 0;
+        if(t3d.y === NaN) t3d.y = 0;
+        if(t3d.z === NaN) t3d.z = 0;
         frame.translate3d = t3d;
       }
       
       if(frame.scale3d){
         let s3d = frame.scale3d;
-        s3d.x = +(s3d.x || 0);
-        s3d.y = +(s3d.y || 0);
-        s3d.z = +(s3d.z || 0);
+        s3d.x = parseFloat(s3d.x, 10);
+        s3d.y = parseFloat(s3d.y, 10);
+        s3d.z = parseFloat(s3d.z, 10);
+        if(s3d.x === NaN) s3d.x = 1;
+        if(s3d.y === NaN) s3d.y = 1;
+        if(s3d.z === NaN) s3d.z = 1;
         frame.scale3d = s3d;
       }
     }
